@@ -1,5 +1,6 @@
 const Cart = require('../models/Cart');
 const Product = require('../models/Product');
+const quantityCheck = require('../../utils/cartQuantityCheck');
 
 class CartsAPI {
     // [GET] /carts
@@ -64,32 +65,8 @@ class CartsAPI {
                     });
                 // Already have this item in cart
                 if (cartItem) {
-                    let newQuantity = cartItem.quantity + quantity;
-                    if (newQuantity < 1) {
-                        // Handle less than one
-                        res.json({
-                            status: 'ERROR',
-                            message: 'At least 1 product'
-                        })
-                        return;
-                    }
-                    // Default 0 is unlimited
-                    else if (product.limit > 0 && newQuantity > product.limit && product.limit <= product.quantity) {
-                        // Handle out of maximum can buy
-                        res.json({
-                            status: 'ERROR',
-                            message: `Maximum purchase quantity for this product is ${product.limit}`
-                        })
-                        return;
-                    }
-                    else if (newQuantity > product.quantity) {
-                        // Handle out of quantity
-                        res.json({
-                            status: 'ERROR',
-                            message: `The remaining quantity of the product is ${product.quantity}`
-                        })
-                        return;
-                    }
+                    const newQuantity = quantityCheck(cartItem.quantity + quantity, product.limit, product.quantity, res);
+                    if (!newQuantity) return;
                     cartItem.quantity = newQuantity;
                     await cartItem.save();
                     res.json({
@@ -104,6 +81,8 @@ class CartsAPI {
                         quantity: newQuantity
                     })
                 } else {
+                    const newQuantity = quantityCheck(quantity + quantity, product.limit, product.quantity, res);
+                    if (!newQuantity) return;
                     const cart = new Cart({
                         ...req.body,
                         userId: req.user._id
