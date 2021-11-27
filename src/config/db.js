@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const connect = async () => {
     try {
-        await mongoose.connect('mongodb://127.0.0.1:27017/cv_shop', () => {
+        await mongoose.connect(process.env.COMPASS_URI, () => {
             console.log('DB connection successful');
         });
     } catch (error) {
