@@ -2,7 +2,7 @@ const Category = require('../models/Category');
 
 class CategoriesAPI {
     // [GET] /categories
-    async listCategories(req, res) {
+    async findAll(req, res) {
         try {
             const categories = await Category
                 .find({ status: 'active' })
@@ -14,7 +14,7 @@ class CategoriesAPI {
     };
 
     // [GET] /categories/:slugCategory
-    async getCategory(req, res) {
+    async findBySlug(req, res) {
         try {
             const { slugCategory } = req.params;
             const category = await Category
@@ -57,7 +57,7 @@ class CategoriesAPI {
     };
 
     // [POST] /categories
-    async addCategory(req, res) {
+    async insertCategory(req, res) {
         try {
             const category = new Category(req.body);
             await category.save();

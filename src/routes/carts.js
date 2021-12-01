@@ -7,7 +7,7 @@ const verifyToken = require('../app/middlewares/verifyToken');
 router.patch('/check/:cartId/:isCheckedAll', verifyToken, CartsAPI.toggleCheck);
 router.patch('/quantity/:cartId/:amount/:volatility', verifyToken, CartsAPI.updateQuantity);
 router.delete('/:cartId', verifyToken, CartsAPI.removeCart);
-router.post('/', verifyToken, CartsAPI.addCart);
-router.get('/', verifyToken, CartsAPI.getCart);
+router.post('/', verifyToken, CartsAPI.insertCart);
+router.get('/', verifyToken, CartsAPI.findAll);
 
 module.exports = router;

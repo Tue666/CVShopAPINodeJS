@@ -15,7 +15,7 @@ class AccountsAPI {
     };
 
     // [GET] /accounts
-    listAccounts(req, res, next) {
+    findAll(req, res, next) {
         Account.find({})
             .then(accounts => res.json(accounts))
             .catch(next);

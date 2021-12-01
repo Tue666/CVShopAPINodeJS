@@ -4,7 +4,7 @@ const quantityCheck = require('../../utils/cartQuantityCheck');
 
 class CartsAPI {
     // [GET] /carts
-    async getCart(req, res) {
+    async findAll(req, res) {
         try {
             const cart = await Cart
                 .find({ userId: req.user._id })
@@ -39,7 +39,7 @@ class CartsAPI {
     };
 
     // [POST] /carts
-    async addCart(req, res) {
+    async insertCart(req, res) {
         try {
             const { productId, quantity } = req.body;
             const product = await Product

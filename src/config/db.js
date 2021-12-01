@@ -2,7 +2,8 @@ const mongoose = require('mongoose');
 
 const connect = async () => {
     try {
-        await mongoose.connect('mongodb+srv://pihe:lmht292001@cluster0.vviso.mongodb.net/cv_shop?retryWrites=true&w=majority', () => {
+        const uri = process.env.NODE_ENV === 'dev' ? process.env.COMPASS_URI : process.env.ATLAS_URI
+        await mongoose.connect(uri, () => {
             console.log('DB connection successful');
         });
     } catch (error) {

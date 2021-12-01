@@ -2,7 +2,7 @@ const Product = require('../models/Product');
 
 class ProductsAPI {
     // [GET] /products/:page/:number
-    async listProducts(req, res) {
+    async findAllWithPagination(req, res) {
         try {
             let { page, number } = req.params;
             page = parseInt(page);
@@ -60,7 +60,7 @@ class ProductsAPI {
     };
 
     // [POST] /products/c
-    async listProductsByCategory(req, res) {
+    async findByCategory(req, res) {
         try {
             const { categoryId, take, ...filter } = req.body;
             let { sort, page, rating, price } = filter;
@@ -132,7 +132,7 @@ class ProductsAPI {
     };
 
     // [GET] /products/:slugProduct
-    async getProduct(req, res) {
+    async findBySlug(req, res) {
         try {
             const { slugProduct } = req.params;
             const product = await Product
@@ -147,7 +147,7 @@ class ProductsAPI {
     };
 
     // [POST] /products
-    async addProduct(req, res) {
+    async insertProduct(req, res) {
         try {
             const product = new Product(req.body);
             await product.save();

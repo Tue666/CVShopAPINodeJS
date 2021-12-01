@@ -12,6 +12,6 @@ router.get('/profile', verifyToken, accountsAPI.getProfile);
 router.get('/checkExist/:email', accountsAPI.checkExist);
 router.post('/login', accountsAPI.login);
 router.post('/register', accountsAPI.register);
-router.get('/', accountsAPI.listAccounts);
+router.get('/', accountsAPI.findAll);
 
 module.exports = router;
