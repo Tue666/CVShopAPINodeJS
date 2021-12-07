@@ -1,3 +1,4 @@
+const path = require('path');
 const multer = require('multer');
 
 const storage = multer.diskStorage({
@@ -8,14 +9,16 @@ const storage = multer.diskStorage({
         // will insert even if file existed
         // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9)
         // cb(null, uniqueSuffix + '-' + file.originalname)
-        
+
         // will not insert if file existed
         cb(null, file.originalname)
     }
 });
 
 const fileFilter = (req, file, cb) => {
-    if (file.mimetype === 'image/jpg' || file.mimetype === 'image/png') {
+    const extension = path.extname(file.originalname).toLowerCase();
+    const allows = ['.jpg', '.png', '.jpeg', '.gif'];
+    if (allows.includes(extension)) {
         cb(null, true);
     } else {
         cb(new Error('Only images allowed'), false);
